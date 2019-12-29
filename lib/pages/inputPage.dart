@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_bmi_calc/calculator_brain.dart';
 import 'package:my_bmi_calc/components/reusableCard.dart';
 import 'package:my_bmi_calc/components/iconContent.dart';
 import 'package:my_bmi_calc/constants.dart';
@@ -15,6 +16,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+
   Gender selectedGender;
   int height = 180;
   int weight = 70;
@@ -138,7 +140,7 @@ class _InputPageState extends State<InputPage> {
                           children: <Widget>[
                             RoundIconButton(
                               icon: FontAwesomeIcons.minus,
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   weight--;
                                 });
@@ -149,13 +151,12 @@ class _InputPageState extends State<InputPage> {
                             ),
                             RoundIconButton(
                               icon: FontAwesomeIcons.plus,
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   weight++;
                                 });
                               },
                             )
-
                           ],
                         )
                       ],
@@ -181,7 +182,7 @@ class _InputPageState extends State<InputPage> {
                           children: <Widget>[
                             RoundIconButton(
                               icon: FontAwesomeIcons.minus,
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   age--;
                                 });
@@ -192,13 +193,12 @@ class _InputPageState extends State<InputPage> {
                             ),
                             RoundIconButton(
                               icon: FontAwesomeIcons.plus,
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   age++;
                                 });
                               },
                             )
-
                           ],
                         )
                       ],
@@ -208,35 +208,41 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          new BottomButton(onTap: (){
-            Navigator.push(context, MaterialPageRoute( builder: (context) => ResultPage()));
-          }, theWordedText: "CALCULATE",)
+          new BottomButton(
+            onTap: () {
+              CalculatorBMI calc =
+                  CalculatorBMI(height: height, weight: weight);
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ResultPage(
+                            bmiResult: calc.calculateBMI(),
+                            bmiInterpretation: calc.getInterpretation(),
+                            resultText: calc.getResult(),
+                          )));
+            },
+            theWordedText: "CALCULATE",
+          )
         ],
       ),
     );
   }
 }
 
-
 class RoundIconButton extends StatelessWidget {
-
   final IconData icon;
   final Function onPressed;
 
   RoundIconButton({this.icon, this.onPressed});
 
-
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-
       child: Icon(icon),
       onPressed: onPressed,
       elevation: 6.0,
-      constraints: BoxConstraints.tightFor(
-        width: 56.0,
-        height: 58.0
-      ),
+      constraints: BoxConstraints.tightFor(width: 56.0, height: 58.0),
       shape: CircleBorder(),
       fillColor: Color(0xFF4C4F5E),
     );

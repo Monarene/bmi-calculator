@@ -2,8 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_bmi_calc/components/reusableCard.dart';
 import 'package:my_bmi_calc/constants.dart';
+import 'package:my_bmi_calc/components/BottomButton.dart';
 
 class ResultPage extends StatelessWidget {
+
+  final bmiResult;
+  final bmiInterpretation;
+  final resultText;
+
+  ResultPage({@required this.bmiResult, @required this.bmiInterpretation, @required this.resultText});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +35,18 @@ class ResultPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Normal", style: kResultTextStyle,),
-                  Text("18.3", style: kBMIText,),
-                  Text("Your BMI is low, you should eat more", style: kBMIInterpretation,)
+                  Text(resultText, style: kResultTextStyle,),
+                  Text(bmiResult, style: kBMIText,),
+                  Text(bmiInterpretation, style: kBMIInterpretation,)
                 ],
               ),
 
             ),
+          ),
+          BottomButton(
+            onTap: (){
+              Navigator.pop(context);
+            },theWordedText: "RE-CALCULATE",
           )
         ],
       ),
